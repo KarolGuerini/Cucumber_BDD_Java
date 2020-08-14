@@ -3,13 +3,16 @@ package br.ce.wcaquino.steps;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import org.junit.Assert;
 
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.NotaAluguel;
+import br.ce.wcaquino.entidades.TipoAluguel;
 import br.ce.wcaquino.servicos.AluguelService;
 import br.ce.wcaquino.utils.DateUtils;
+import cucumber.api.DataTable;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
@@ -21,7 +24,7 @@ public class alugarFilmeSteps {
 	private AluguelService aluguel = new AluguelService();
 	private NotaAluguel nota;
 	private String erro;
-	private String tipoAluguel; //isso é uma variavel
+	private TipoAluguel tipoAluguel;
 	
 	
 	@Dado("^um filme com estoque de (\\d+) unidades$")
@@ -33,6 +36,18 @@ public class alugarFilmeSteps {
 	@Dado("^que o preco do aluguel seja de R\\$ (\\d+)$")
 	public void que_o_preco_do_aluguel_seja_de_R$(int arg1) throws Throwable {
 	  filme.setAluguel(arg1);
+	}
+	
+	@Dado("^um filme$")
+	public void umFilme(DataTable table) throws Throwable {
+	   Map<String, String> map = table.asMap(String.class, String.class);
+	   filme = new Filme();
+	   filme.setEstoque(Integer.parseInt(map.get("estoque")));  // parseInt aceita inteiro e string
+	   filme.setAluguel(Integer.parseInt(map.get("preco")));
+	   String tipo = map.get("tipo");
+	   tipoAluguel = tipo.equals("semanal")? TipoAluguel.SEMANAL: tipo.equals("extendido")?TipoAluguel.EXTENDIDO: TipoAluguel.COMUM;
+
+		
 	}
 
 	@Quando("^alugar$")
@@ -66,7 +81,7 @@ public class alugarFilmeSteps {
 	
 	@Dado("^que o tipo do aluguel seja (.*)$")
 	public void queOTipoDoAluguelSejaExtendido(String tipo) throws Throwable {
-		tipoAluguel = tipo;
+		tipoAluguel = tipo.equals("semanal")? TipoAluguel.SEMANAL: tipo.equals("extendido")?TipoAluguel.EXTENDIDO: TipoAluguel.COMUM;
 	}
 
 	@Entao("^a data de entrega sera em (\\d+) dias?$") //estou dizendo aqui que o s é opcional utilizando o ?
@@ -79,7 +94,7 @@ public class alugarFilmeSteps {
 	   
 	}
 
-	@Entao("^a pontuacao recebida sera de (\\d+) pontos?$")
+	@Entao("^a pontuacao sera de (\\d+) pontos?$")
 	public void aPontuacaoRecebidaSeraDePontos(int arg1) throws Throwable {
 		Assert.assertEquals(arg1, nota.getPontuacao());
 	
