@@ -1,7 +1,6 @@
 # language: pt
 
-
-	@esse
+  @unitários
 	Funcionalidade: Aprender Cucumber
 	Como aluno
 	Quero aprender a utiilizar Cucumber

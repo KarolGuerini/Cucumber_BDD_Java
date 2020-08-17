@@ -6,25 +6,19 @@ Gostaria de cadastrar contas
 Para que eu possa distribuir meu dinheiro de uma forma mais organizada
 
 Contexto:
-Dado que estou acessando a aplicacao
-Quando informo o usuario "karolteste@gmail.com"
-E a senha "123456"
-E seleciono entrar
-Entao visualizo a pagina inicial
-Quando seleciono Contas
-E seleciono Adicionar
+Dado que desejo adicionar uma conta 
 
-Cenario: Deve inserir uma conta com sucesso
-E informo a conta "Conta de Teste"
-E seleciono Salvar
-Entao a conta e inserida com sucesso
+Esquema do Cenario: Deve validar regras de cadastro de contas
+Quando adiciono a conta "<conta>"
+Entao recebo a mensagem "<mensagem>"
 
-Cenario: Nao deve inserir uma conta sem nome
-E seleciono Salvar
-Entao sou notificado que o nome da conta e obrigatorio
+Exemplos:
+ | conta              | mensagem |
+ | Conta de Teste     | Conta adicionada com sucesso! |
+ |                    | Informe o nome da conta |
 
-
-Cenario: Nao deve inserir uma conta com nome ja existente
-E informo a conta "Conta mesmo nome"
-E seleciono Salvar
+Cenario: Nao deve inserir uma conta com nome ja existente 
+Quando adiciono a conta "Conta mesmo nome"
 Entao sou notificado que ja existe uma conta com esse nome
+#Esse cenario acima nao ficou dentro do esquema de cenario pois a acentuacao do eclipse nao recenonhece o acento do ja existe
+

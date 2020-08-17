@@ -1,6 +1,5 @@
 package br.ce.wcaquino.runners;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
